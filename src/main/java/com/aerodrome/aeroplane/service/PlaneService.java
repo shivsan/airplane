@@ -4,6 +4,7 @@ import com.aerodrome.aeroplane.models.Plane;
 import com.aerodrome.aeroplane.models.Seat;
 import com.aerodrome.aeroplane.models.SeatType;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,8 @@ public class PlaneService {
         for (var section : plane.getSections()) {
             for (var row : section.getRows()) {
                 for (var seat : row.getSeats()) {
-                    seatsWithPositions.add(new SeatPosition(seat, section.getNumber(), row.getNumber()));
+                    if (!seat.isOccupied())
+                        seatsWithPositions.add(new SeatPosition(seat, section.getNumber(), row.getNumber()));
                 }
             }
         }
@@ -37,13 +39,15 @@ public class PlaneService {
 
     private Optional<SeatPosition> getLeftMostSeat(List<SeatPosition> topAisleSeatPositions) {
         return topAisleSeatPositions.stream()
-                    .sorted((sp1, sp2) -> sp1.sectionNumber - sp1.sectionNumber)
-                    .findFirst();
+                .sorted((sp1, sp2) -> sp1.sectionNumber - sp1.sectionNumber)
+                .findFirst();
     }
 
     private List<SeatPosition> getTopMostSeats(List<SeatPosition> seatPositions) {
+        int topMostSeatRowNumber = seatPositions.stream().map(seatPosition -> seatPosition.rowNumber).min(Integer::compareTo).get();
+
         return seatPositions.stream()
-                .sorted((sp1, sp2) -> sp1.rowNumber - sp1.rowNumber)
+                .filter(seatPosition -> seatPosition.rowNumber == topMostSeatRowNumber)
                 .collect(Collectors.toList());
     }
 

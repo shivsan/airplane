@@ -43,4 +43,15 @@ public class PlaneServiceTest {
         final var firstSectionFirstRowAisleSeat = plane.getSections()[0].getRows()[0].getSeats()[1];
         assertEquals(firstSectionFirstRowAisleSeat, selectedSeatPositionForCustomer.get().seat);
     }
+
+    @Test
+    public void shouldGetNextSectionFirstRowAisleSeatIfFirstSectionFirstRowIsOccupied() {
+        final var plane = new PlaneFactory().createPlane(new int[][]{new int[]{2, 2}, new int[]{3, 3}});
+        plane.getSections()[0].getRows()[0].getSeats()[1].setCustomerNumber(1);
+
+        final var selectedSeatPositionForCustomer = planeService.getSeatForCustomer(plane);
+
+        final var nextSectionFirstRowAisleSeat = plane.getSections()[1].getRows()[0].getSeats()[0];
+        assertEquals(nextSectionFirstRowAisleSeat, selectedSeatPositionForCustomer.get().seat);
+    }
 }
