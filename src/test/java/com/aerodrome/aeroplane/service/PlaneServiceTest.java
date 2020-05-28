@@ -102,4 +102,20 @@ public class PlaneServiceTest {
         final var firstMiddleSeat = plane.getSections()[1].getRows()[0].getSeats()[1];
         assertEquals(firstMiddleSeat, selectedSeatPositionForCustomer.get().seat);
     }
+
+    @Test
+    public void shouldReturnEmptyIfAllSeatsAreOccupied() {
+        final var plane = new PlaneFactory().createPlane(new int[][]{new int[]{2, 2}, new int[]{3, 3}});
+        for (var section : plane.getSections()) {
+            for (var row : section.getRows()) {
+                for (var seat : row.getSeats()) {
+                    seat.setCustomerNumber(1);
+                }
+            }
+        }
+
+        final var returnedSeat = planeService.getSeatForCustomer(plane);
+
+        assertEquals(Optional.empty(), returnedSeat);
+    }
 }
