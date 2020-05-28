@@ -28,4 +28,12 @@ public class Seat {
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
     }
+
+    public SeatType getType() {
+        return type;
+    }
+
+    public int getNumber() {
+        return number;
+    }
 }
