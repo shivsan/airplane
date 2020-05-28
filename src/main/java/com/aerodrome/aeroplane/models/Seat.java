@@ -1,11 +1,17 @@
 package com.aerodrome.aeroplane.models;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import java.util.Optional;
 
 public class Seat {
     int number;
     SeatType type;
     Optional<Integer> customerNumber;
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
     public void setCustomerNumber(int customerNumber) {
         this.customerNumber = Optional.of(customerNumber);
@@ -17,5 +23,9 @@ public class Seat {
 
     public boolean isOccupied() {
         return customerNumber.isPresent();
+    }
+
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 }
