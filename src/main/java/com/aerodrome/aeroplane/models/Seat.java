@@ -9,6 +9,10 @@ public class Seat {
     SeatType type;
     Optional<Integer> customerNumber;
 
+    public Seat() {
+        this.customerNumber = Optional.empty();
+    }
+
     public void setNumber(int number) {
         this.number = number;
     }
