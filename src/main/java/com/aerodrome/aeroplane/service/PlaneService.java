@@ -4,7 +4,6 @@ import com.aerodrome.aeroplane.models.Plane;
 import com.aerodrome.aeroplane.models.Seat;
 import com.aerodrome.aeroplane.models.SeatType;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -28,11 +27,12 @@ public class PlaneService {
         }
 
         // Filter by Aisle, if empty, filter by windows, if empty filter by middle seats
-        final var aisleSeats = seatsWithPositions.stream()
-                .filter(seatPosition -> seatPosition.seatType.equals(SeatType.AISLE))
-                .collect(Collectors.toList());
+        List<SeatPosition> categorizedSeats = getSeatsFilteredByType(seatsWithPositions, SeatType.AISLE);
 
-        final var topAisleSeatPositions = getTopMostSeats(aisleSeats);
+        if (categorizedSeats.isEmpty())
+            categorizedSeats = getSeatsFilteredByType(seatsWithPositions, SeatType.WINDOW);
+
+        final var topAisleSeatPositions = getTopMostSeats(categorizedSeats);
 
         return getLeftMostSeat(topAisleSeatPositions);
     }
@@ -48,6 +48,12 @@ public class PlaneService {
 
         return seatPositions.stream()
                 .filter(seatPosition -> seatPosition.rowNumber == topMostSeatRowNumber)
+                .collect(Collectors.toList());
+    }
+
+    private List<SeatPosition> getSeatsFilteredByType(List<SeatPosition> seatsWithPositions, SeatType seatType) {
+        return seatsWithPositions.stream()
+                .filter(seatPosition -> seatPosition.seatType.equals(seatType))
                 .collect(Collectors.toList());
     }
 

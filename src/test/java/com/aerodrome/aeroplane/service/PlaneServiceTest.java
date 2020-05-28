@@ -54,4 +54,31 @@ public class PlaneServiceTest {
         final var nextSectionFirstRowAisleSeat = plane.getSections()[1].getRows()[0].getSeats()[0];
         assertEquals(nextSectionFirstRowAisleSeat, selectedSeatPositionForCustomer.get().seat);
     }
+
+    @Test
+    public void shouldGetLowerRowAisleSeatIfFirstRowAisleSeatsAreAllOccupied() {
+        final var plane = new PlaneFactory().createPlane(new int[][]{new int[]{2, 2}, new int[]{3, 3}});
+        plane.getSections()[0].getRows()[0].getSeats()[1].setCustomerNumber(1);
+        plane.getSections()[1].getRows()[0].getSeats()[0].setCustomerNumber(2);
+
+        final var selectedSeatPositionForCustomer = planeService.getSeatForCustomer(plane);
+
+        final var nextRowAisleSeat = plane.getSections()[0].getRows()[1].getSeats()[1];
+        assertEquals(nextRowAisleSeat, selectedSeatPositionForCustomer.get().seat);
+    }
+
+    @Test
+    public void shouldFirstSectionWindowSeatIfAllAisleSeatsAreAllOccupied() {
+        final var plane = new PlaneFactory().createPlane(new int[][]{new int[]{2, 2}, new int[]{3, 3}});
+        plane.getSections()[0].getRows()[0].getSeats()[1].setCustomerNumber(1);
+        plane.getSections()[0].getRows()[1].getSeats()[1].setCustomerNumber(2);
+        plane.getSections()[1].getRows()[0].getSeats()[0].setCustomerNumber(3);
+        plane.getSections()[1].getRows()[1].getSeats()[0].setCustomerNumber(4);
+        plane.getSections()[1].getRows()[2].getSeats()[0].setCustomerNumber(5);
+
+        final var selectedSeatPositionForCustomer = planeService.getSeatForCustomer(plane);
+
+        final var firstWindowSeat = plane.getSections()[0].getRows()[1].getSeats()[0];
+        assertEquals(firstWindowSeat, selectedSeatPositionForCustomer.get().seat);
+    }
 }
