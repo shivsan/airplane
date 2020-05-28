@@ -32,6 +32,9 @@ public class PlaneService {
         if (categorizedSeats.isEmpty())
             categorizedSeats = getSeatsFilteredByType(seatsWithPositions, SeatType.WINDOW);
 
+        if (categorizedSeats.isEmpty())
+            categorizedSeats = getSeatsFilteredByType(seatsWithPositions, SeatType.MIDDLE);
+
         final var topAisleSeatPositions = getTopMostSeats(categorizedSeats);
 
         return getLeftMostSeat(topAisleSeatPositions);
