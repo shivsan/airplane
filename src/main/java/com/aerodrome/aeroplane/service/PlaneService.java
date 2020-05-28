@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 
 public class PlaneService {
     public void addCustomer(Plane plane, int customerId) {
-
+        final var seatForCustomer = getSeatForCustomer(plane);
+        seatForCustomer.get().seat.setCustomerNumber(customerId);
     }
 
     protected Optional<SeatPosition> getSeatForCustomer(Plane plane) {

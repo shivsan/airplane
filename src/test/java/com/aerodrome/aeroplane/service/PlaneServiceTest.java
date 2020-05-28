@@ -31,7 +31,7 @@ public class PlaneServiceTest {
 
         final var firstSectionFirstRowAisleSeat = plane.getSections()[0].getRows()[0].getSeats()[1];
         assertTrue(firstSectionFirstRowAisleSeat.isOccupied());
-        assertEquals(firstSectionFirstRowAisleSeat.getNumber(), firstCustomerId);
+        assertEquals(firstSectionFirstRowAisleSeat.getCustomerNumber().get().intValue(), firstCustomerId);
     }
 
     @Test

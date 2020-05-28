@@ -37,6 +37,10 @@ public class Seat {
         return type;
     }
 
+    public Optional<Integer> getCustomerNumber() {
+        return customerNumber;
+    }
+
     public int getNumber() {
         return number;
     }
