@@ -1,5 +1,6 @@
 package com.aerodrome.aeroplane.factory;
 
+import com.aerodrome.aeroplane.exception.CapacityExceededException;
 import com.aerodrome.aeroplane.models.*;
 
 import java.util.Arrays;
@@ -73,7 +74,6 @@ public class PlaneFactory {
                 return -1;
         }
     }
-
     enum WallSide {
         LEFT,
         RIGHT

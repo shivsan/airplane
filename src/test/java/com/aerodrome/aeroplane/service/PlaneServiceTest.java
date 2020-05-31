@@ -1,5 +1,6 @@
 package com.aerodrome.aeroplane.service;
 
+import com.aerodrome.aeroplane.exception.CapacityExceededException;
 import com.aerodrome.aeroplane.factory.PlaneFactory;
 import com.aerodrome.aeroplane.models.Plane;
 import org.junit.Before;
@@ -23,7 +24,7 @@ public class PlaneServiceTest {
     }
 
     @Test
-    public void shouldAddFirstCustomerToFirstSectionFirstRowAisleSeat() {
+    public void shouldAddFirstCustomerToFirstSectionFirstRowAisleSeat() throws CapacityExceededException {
         final var plane = new PlaneFactory().createPlane(new int[][]{new int[]{2, 2}, new int[]{3, 3}});
         final var firstCustomerId = 1;
 
@@ -32,6 +33,13 @@ public class PlaneServiceTest {
         final var firstSectionFirstRowAisleSeat = plane.getSections()[0].getRows()[0].getSeats()[1];
         assertTrue(firstSectionFirstRowAisleSeat.isOccupied());
         assertEquals(firstSectionFirstRowAisleSeat.getCustomerNumber().get().intValue(), firstCustomerId);
+    }
+
+    @Test(expected = CapacityExceededException.class)
+    public void shouldThrowExceptionWhenPlaneCapacityIsExceeded() throws CapacityExceededException {
+        final var plane = new PlaneFactory().createPlane(new int[][]{new int[]{1, 1}});
+        planeService.addCustomer(plane, 1);
+        planeService.addCustomer(plane, 2);
     }
 
     @Test

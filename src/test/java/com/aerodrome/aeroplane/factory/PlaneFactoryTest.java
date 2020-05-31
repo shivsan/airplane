@@ -1,5 +1,6 @@
 package com.aerodrome.aeroplane.factory;
 
+import com.aerodrome.aeroplane.exception.CapacityExceededException;
 import com.aerodrome.aeroplane.models.Row;
 import com.aerodrome.aeroplane.models.Seat;
 import com.aerodrome.aeroplane.models.SeatType;

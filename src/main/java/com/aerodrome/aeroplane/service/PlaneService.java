@@ -1,5 +1,6 @@
 package com.aerodrome.aeroplane.service;
 
+import com.aerodrome.aeroplane.exception.CapacityExceededException;
 import com.aerodrome.aeroplane.models.Plane;
 import com.aerodrome.aeroplane.models.Seat;
 import com.aerodrome.aeroplane.models.SeatType;
@@ -10,7 +11,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PlaneService {
-    public void addCustomer(Plane plane, int customerId) {
+    public void addCustomer(Plane plane, int customerId) throws CapacityExceededException {
+        if(plane.currentCapacity() == 0)
+            throw new CapacityExceededException();
+
         final var seatForCustomer = getSeatForCustomer(plane);
         seatForCustomer.get().seat.setCustomerNumber(customerId);
     }
