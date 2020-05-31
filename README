@@ -1,0 +1,4 @@
+Run file with
+1.) export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
+2.) ./gradlew build
+3.) java -jar build/libs/airplane-1.0-SNAPSHOT.jar
