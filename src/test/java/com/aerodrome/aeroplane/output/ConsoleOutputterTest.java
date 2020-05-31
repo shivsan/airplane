@@ -2,6 +2,7 @@ package com.aerodrome.aeroplane.output;
 
 import com.aerodrome.aeroplane.exception.CapacityExceededException;
 import com.aerodrome.aeroplane.factory.PlaneFactory;
+import com.aerodrome.aeroplane.models.Plane;
 import com.aerodrome.aeroplane.service.PlaneService;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class ConsoleOutputterTest {
     private ConsoleOutputter consoleOutputter;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.consoleOutputter = new ConsoleOutputter();
     }
 
@@ -28,17 +29,19 @@ public class ConsoleOutputterTest {
         int noOfCustomers = 8;
         IntStream
                 .rangeClosed(1, noOfCustomers)
-                .forEach(customerNumber -> {
-                    try {
-                        planeService.addCustomer(plane, customerNumber);
-                    } catch (CapacityExceededException e) {
-                        e.printStackTrace();
-                    }
-                });
+                .forEach(customerNumber -> exceptionCatcher(plane, planeService, customerNumber));
 
         final var output = consoleOutputter.getPlaneStringOutput(plane);
 
         assertEquals(outputForPlane(), output);
+    }
+
+    private void exceptionCatcher(Plane plane, PlaneService planeService, int customerNumber) {
+        try {
+            planeService.addCustomer(plane, customerNumber);
+        } catch (CapacityExceededException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -50,13 +53,7 @@ public class ConsoleOutputterTest {
         int noOfCustomers = 14;
         IntStream
                 .rangeClosed(1, noOfCustomers)
-                .forEach(customerNumber -> {
-                    try {
-                        planeService.addCustomer(plane, customerNumber);
-                    } catch (CapacityExceededException e) {
-                        e.printStackTrace();
-                    }
-                });
+                .forEach(customerNumber -> exceptionCatcher(plane, planeService, customerNumber));
 
         final var output = consoleOutputter.getPlaneStringOutput(plane);
 
@@ -72,13 +69,7 @@ public class ConsoleOutputterTest {
         int noOfCustomers = 5;
         IntStream
                 .rangeClosed(1, noOfCustomers)
-                .forEach(customerNumber -> {
-                    try {
-                        planeService.addCustomer(plane, customerNumber);
-                    } catch (CapacityExceededException e) {
-                        e.printStackTrace();
-                    }
-                });
+                .forEach(customerNumber -> exceptionCatcher(plane, planeService, customerNumber));
 
         final List<String> output = consoleOutputter.printSection(plane.getSections()[0], 1);
 
@@ -94,13 +85,7 @@ public class ConsoleOutputterTest {
         int noOfCustomers = 5;
         IntStream
                 .rangeClosed(1, noOfCustomers)
-                .forEach(customerNumber -> {
-                    try {
-                        planeService.addCustomer(plane, customerNumber);
-                    } catch (CapacityExceededException e) {
-                        e.printStackTrace();
-                    }
-                });
+                .forEach(customerNumber -> exceptionCatcher(plane, planeService, customerNumber));
 
         final var output = consoleOutputter.getRowText(plane.getSections()[0].getRows()[0], 1);
 
